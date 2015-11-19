@@ -7,9 +7,7 @@ library(ggplot2)
 
 #Connect to MS SQL Server
 MAS <- odbcConnect("MAS Operation")
-#Check tables
-#sqlTables(MAS)
-#sqlColumns(MAS, "ViewSOLines")
+
 #Query Data
 SOdata <- sqlQuery(MAS, "SELECT SumLine, QtyOrd, ItemID,CreateDate,WhseID,CustID,OPGStat,ExtAmt,OrdStatus
                    FROM ViewSOLines 
@@ -25,9 +23,9 @@ summary(SOdata)
 
 SOdata <- tbl_df(SOdata)
 
-sumline <- unique(SOdata$SumLine)
+sumline <- unique(SOdata$SumLine) #Get names of product lines
 
-prdlist <- sapply(sumline,FUN = as.list)
+prdlist <- sapply(sumline,FUN = as.list) #Create a list to store sales data for each product line
 
 
 for (i in 1:length(sumline)){
